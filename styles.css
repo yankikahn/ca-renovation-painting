@@ -691,7 +691,7 @@ code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.9em; }
   font-size:clamp(1.75rem,9vw,5.6rem); font-weight:700; letter-spacing:-.04em;
   text-transform:uppercase; line-height:.94; margin:0 0 26px;
 }
-.cta__p{ color:var(--muted); max-width:48ch; margin:0 0 clamp(38px,5vw,56px); }
+.cta__p{ color:var(--muted); max-width:34ch; margin:0 0 clamp(38px,5vw,56px); text-wrap:balance; }
 .cta__rows{ display:grid; gap:0; max-width:760px; border-top:1px solid var(--hair-2); }
 .cta__row{
   display:grid; grid-template-columns:24px 130px 1fr 24px;

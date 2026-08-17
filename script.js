@@ -89,6 +89,11 @@
   }
 
   window.addEventListener('scroll', function () {
+    /* Reveals run straight off the scroll event, not inside the rAF tick: rAF is
+       throttled in background/occluded tabs, and a throttled frame would leave
+       sections clipped to nothing. The check is a rect read against a list that
+       only shrinks, and it early-returns once everything has been revealed. */
+    revealPending();
     if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
   }, { passive: true });
   onScroll();
@@ -100,33 +105,29 @@
     revealables.forEach(function (el) { el.classList.add('in'); });
   }
 
-  if ('IntersectionObserver' in window && !reduced) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-      });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
-    revealables.forEach(function (el) { io.observe(el); });
+  /* Deliberately NOT IntersectionObserver.
+     A [data-curtain] starts at clip-path: inset(0 100% 0 0), and Chrome factors
+     clip-path into the rect an observer tests, so a curtain has zero visible area
+     and never reports as intersecting — the observer that should un-clip it can
+     never fire. getBoundingClientRect ignores clip-path, so one rect check per
+     scroll frame drives both reveal types and can't deadlock. */
+  var pending = reduced ? [] : revealables.slice();
+  if (reduced) revealAll();
 
-    /* Safety net. Anything at or above the fold gets revealed outright rather than
-       waiting on an observer callback — covers deep links (#work), a restored scroll
-       position, and any case where the observer doesn't fire. A hidden section is a
-       far worse failure than a missed animation. */
-    var sweep = function () {
-      revealables.forEach(function (el) {
-        if (el.classList.contains('in')) return;
-        if (el.getBoundingClientRect().top < window.innerHeight * 0.95) {
-          el.classList.add('in');
-          io.unobserve(el);
-        }
-      });
-    };
-    window.addEventListener('load', sweep);
-    window.setTimeout(sweep, 1200);
-    window.setTimeout(sweep, 3000);
-  } else {
-    revealAll();
+  function revealPending() {
+    /* hoisted, so the scroll handler can call it before `pending` is assigned */
+    if (!pending || !pending.length) return;
+    var fold = window.innerHeight * 0.88;
+    pending = pending.filter(function (el) {
+      if (el.getBoundingClientRect().top >= fold) return true;
+      el.classList.add('in');
+      return false;
+    });
   }
+
+  window.addEventListener('load', revealPending);
+  window.addEventListener('resize', revealPending);
+  revealPending();
 
   /* --------------------------------------- statement: word-by-word light */
   var stmt = $('[data-words]');
