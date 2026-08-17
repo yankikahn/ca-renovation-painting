@@ -18,7 +18,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<!-- ?v= is a cache buster. GitHub Pages serves these with Cache-Control: max-age=600,
+     so without it a returning visitor can pair new HTML with a 10-minute-old script.
+     BUMP THE NUMBER on both this and script.js whenever you edit either file. -->
+<link rel="stylesheet" href="styles.css?v=2">
 
 <!-- Gates the scroll-reveal start states. Without this class every [data-reveal] /
      [data-curtain] block stays visible, so a JS failure can't blank out a section. -->
@@ -583,6 +586,6 @@
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=2"></script>
 </body>
 </html>

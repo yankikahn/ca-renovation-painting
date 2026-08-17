@@ -14,6 +14,15 @@ ca-renovation-site/
 
 ---
 
+## Editing styles.css or script.js? Bump the cache buster
+
+`index.html` loads them as `styles.css?v=2` and `script.js?v=2`. GitHub Pages serves
+everything with `Cache-Control: max-age=600`, so a returning visitor can otherwise run a
+ten-minute-old script against fresh HTML — which is exactly how a broken scroll-reveal
+looked "still broken" after it had been fixed. **Increment both numbers in `index.html`
+whenever you change either file.** To check what a visitor is actually getting, hard-reload
+(<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>) rather than a normal refresh.
+
 ## Still open — 2 things
 
 1. **Facebook link.** The pamphlet gives the page *name*, not a URL, so the link still runs
