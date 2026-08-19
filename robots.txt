@@ -1,0 +1,8 @@
+# NOTE: crawlers only read robots.txt from a DOMAIN root, so this file does nothing
+# while the site lives at yankikahn.github.io/ca-renovation-painting/. It starts
+# working the moment the site moves to its own domain. The sitemap below can still be
+# submitted directly in Google Search Console today.
+User-agent: *
+Allow: /
+
+Sitemap: https://yankikahn.github.io/ca-renovation-painting/sitemap.xml

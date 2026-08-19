@@ -23,6 +23,34 @@ looked "still broken" after it had been fixed. **Increment both numbers in `inde
 whenever you change either file.** To check what a visitor is actually getting, hard-reload
 (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>) rather than a normal refresh.
 
+## SEO notes
+
+Free, already done: canonical URL, absolute Open Graph tags (link previews show the hero
+photo), `LocalBusiness` structured data with services and the Google Maps link, `sitemap.xml`,
+semantic headings, alt text on every image, fast self-hosted assets, mobile-first images.
+
+Deliberately **not** in the structured data: the street address. The client works out of a
+house, so they should be set up as a service-area business on Google and the address should
+stay hidden. Schema lists Orlando / Central Florida only.
+
+Free and still worth doing:
+
+1. **Add this URL to the Google Business Profile.** It had no website link at all, which is
+   the single biggest free win available.
+2. **Google Search Console** — free, verify via the HTML meta tag method, then submit
+   `sitemap.xml`. This is how you see what people actually search to find them.
+3. **Reviews.** Ranking in the map pack tracks review count and recency more than anything
+   on this site.
+
+Known ceiling: this is one page, so it can realistically rank for one cluster of terms.
+Ranking separately for "kitchen remodeling orlando", "interior painting orlando" and
+"pressure washing orlando" eventually needs separate pages. A Spanish version is the biggest
+untapped opportunity — they advertise "Se habla español" and Spanish-language local search
+has far less competition.
+
+**If the site moves to a custom domain**, update the absolute URLs: `canonical`, `og:url`,
+`og:image`, everything in the JSON-LD block, plus `sitemap.xml` and `robots.txt`.
+
 ## Still open — 2 things
 
 1. **Facebook link.** The pamphlet gives the page *name*, not a URL, so the link still runs
