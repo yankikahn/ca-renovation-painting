@@ -16,7 +16,7 @@ ca-renovation-site/
 
 ## Editing styles.css or script.js? Bump the cache buster
 
-`index.html` loads them as `styles.css?v=2` and `script.js?v=2`. GitHub Pages serves
+`index.html` loads them as `styles.css?v=3` and `script.js?v=3`. GitHub Pages serves
 everything with `Cache-Control: max-age=600`, so a returning visitor can otherwise run a
 ten-minute-old script against fresh HTML — which is exactly how a broken scroll-reveal
 looked "still broken" after it had been fixed. **Increment both numbers in `index.html`
@@ -65,12 +65,12 @@ has far less competition.
 
 - **Reviews are real**, quoted verbatim from the Google Business Profile
   ([`maps?cid=11060459973701645286`](https://www.google.com/maps?cid=11060459973701645286)) —
-  5.0 from 5 reviews. Michael Bordenave's is trimmed to its first two sentences because
+  5.0 from 6 reviews. Michael Bordenave's is trimmed to its first two sentences because
   Google hides the rest behind a "More" link. **Never reword the text inside a
   `<blockquote>`**; to shorten a quote, cut at a sentence boundary.
 - **Service area** is confirmed: the business is registered in Orlando, FL 32809, so the
   footer and JSON-LD say "Orlando & Central Florida".
-- **Rating in structured data** (`aggregateRating` in the JSON-LD) is set to the real 5.0 / 5.
+- **Rating in structured data** (`aggregateRating` in the JSON-LD) is set to the real 5.0 / 6.
   Update it when the review count changes, or search engines will show a stale number.
 
 ---
@@ -150,9 +150,13 @@ Then open <http://localhost:4173>.
 - **Logo** was lifted from the pamphlet scan and its black field converted to real
   transparency, so it sits cleanly on any dark surface. It's white + gold ink, so it needs
   a dark background — don't place it on the yellow band.
-- **Scroll effects** are all IntersectionObserver + `requestAnimationFrame`, no libraries:
-  section reveals, image curtain wipes, the statement lighting up word by word, stat
-  count-ups, hero parallax, and specialty-card parallax.
+- **Scroll effects**, no libraries: section reveals, image curtain wipes, the statement
+  lighting up word by word, stat count-ups, hero parallax, specialty-card parallax.
+  Reveals deliberately do **not** use IntersectionObserver — a curtain starts at
+  `clip-path: inset(0 100% 0 0)`, and Chrome counts clip-path against the rect an observer
+  tests, so a curtain has zero visible area and never reports as intersecting. The observer
+  that should un-clip it can never fire. `getBoundingClientRect` on the scroll event ignores
+  clip-path, so that is what drives them. Do not "optimise" this back to an observer.
 - **Accessibility.** Everything is keyboard reachable, the before/after slider is a real
   `<input type="range">` (arrow keys work), images have alt text, and every animation is
   switched off under `prefers-reduced-motion`.
